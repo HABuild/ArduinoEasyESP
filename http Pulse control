@@ -1,0 +1,5 @@
+// http/ESPeasy IP/control?cmd=Pulse,15,1,50
+
+//   http:// YOUR ESPEASY IP /control?cmd=Pulse,15,1,50
+
+// pulse control GPIO on a ESPeasy pulse,gpio,MSG,duration Millis
