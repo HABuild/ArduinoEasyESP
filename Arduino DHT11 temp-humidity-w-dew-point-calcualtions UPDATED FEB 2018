@@ -1,9 +1,11 @@
-//http://arduinotronics.blogspot.com.au/2013/12/temp-humidity-w-dew-point-calcualtions.html
+//found via http://arduinotronics.blogspot.com.au/2013/12/temp-humidity-w-dew-point-calcualtions.html
+
+//My changes Add Heat index in Celsius and, probably in a poor way
 
 // Example testing sketch for various DHT humidity/temperature sensors
 // Written by ladyada, public domain
 
-#include <DHT.h>
+#include <DHT.h> //requires Adafruit unnified sensor library in Arduino IDE 1.8.5
 
 #define DHTPIN 2     // what pin we're connected to
 
@@ -22,6 +24,8 @@ DHT dht(DHTPIN, DHTTYPE);
 float tF;
 float dP;
 float dPF;
+float hC; //Used to convert Heat Index back to celsius
+float hi;
 
 void setup() {
   Serial.begin(9600);
@@ -44,16 +48,16 @@ void loop() {
     Serial.print(h);
     Serial.print(" %\t");
     Serial.print("Temperature: ");
-    // Serial.print(t);
-    // Serial.print(" *C ");
+    Serial.print(t);
+    Serial.print(" *C ");
     tF=((t*9)/5)+32;
     Serial.print(tF);
     Serial.print(" *F ");
     Serial.print(" \t");
   
   Serial.print("Dew Point: ");
-  // Serial.print(dewPointFast(t, h));
-  // Serial.print(" *C ");
+  Serial.print(dewPointFast(t, h));
+  Serial.print(" *C ");
   dP=(dewPointFast(t, h));
   dPF=((dP*9)/5)+32;
   Serial.print(dPF);
@@ -62,8 +66,14 @@ void loop() {
 
   Serial.print("Heat Index: ");
   Serial.print(heatIndex(tF,h));
-  Serial.println(" *F");
+  Serial.print(" *F ");
 
+  
+  Serial.print(" It's HOT: ");
+  hi=(heatIndex(tF,h));
+  hC=((hi-32)/1.8);
+  Serial.print(hC);
+  Serial.println(" *HOTTT");
 
   }
 }
