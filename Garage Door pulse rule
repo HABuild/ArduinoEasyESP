@@ -1,1 +1,13 @@
 // bleh lost the code I bloody signed into to git for. 
+
+On System#Boot do
+  gpio,15,0
+endon
+
+On garage#door=1 do
+  pulse,15,1,100
+  gpio,15,0
+  publish /MyHome/Garage/Door/,The Garage Door is Moving
+   //if else needed for garage#door=1 > 1000
+   //publish /MyHome/Garage/Door/ RELAY FAULT - URGENT
+endon
