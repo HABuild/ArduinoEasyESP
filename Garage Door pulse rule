@@ -11,3 +11,25 @@ On garage#door=1 do
    //if else needed for garage#door=1 > 1000
    //publish /MyHome/Garage/Door/ RELAY FAULT - URGENT
 endon
+
+NOW USING THIS
+
+On System#Boot do
+  gpio,15,0 //D8
+endon
+
+On garage#door=1 do
+  pulse,15,1,200,
+  Publish status,gpio,15 to /%sysname%/cmd
+ 
+
+endon 
+   //if else needed for garage#door=1 > 1000
+   //publish /MyHome/Garage/, RELAY FAULT - URGENT
+   
+   MQTT COMMANDS 
+   Topic                               payload
+      /%sysname/Garage/cmd          pulse,15,1,500,status,
+      /ESP_Easy/Garage/cmd          gpio,15,1,status,
+
+
