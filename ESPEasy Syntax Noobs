@@ -47,3 +47,32 @@ on sniff#cmd/REBOOT/time/=4 do   //reboot at the time based on persistence on br
   Publish %sysname%/status,Rebooting 
  Reboot
 endon
+
+Working Rules!
+Rule 1
+On System#Boot do
+  gpio,15,0 //D8 NodeMcu board ref
+endon
+
+On garage#relay do
+ if [garage#relay]=1
+  pulse,15,1,200
+  Publish status,gpio,15 to [HABuild/Garage/status]
+  gpio,15,0
+ endif
+endon 
+
+
+On sniff#HABuild/Garage/=1 do
+  Pulse,15,1,300
+  Publish HABuild/IP,%ip% // I am alive and this is my address
+  Publish HABuild/Garage/,DoorActivated
+endon
+
+On garage#reed=1 do
+  Publish HABuild/Garage/Status,DoorOPEN!! 
+endon 
+
+On garage#reed=0 do
+  Publish HABuild/Garage/Status,DoorClosed 
+endon 
