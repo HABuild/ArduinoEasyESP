@@ -26,3 +26,24 @@ endon
 // endif
 //endon
 
+
+rule set 2
+
+on sniff#cmdMQTT=1 do
+  Publish %sysname%/IP,%ip% // I am alive and this is my address
+endon
+
+
+on sniff#cmdMQTT=2 do
+  Publish %sysname%/Time,%systime% //The current time on this device will published to cmdMQTT/TIME/
+endon                                                       // possible to adjust time if not using NTP?
+
+on sniff#cmdMQTT=3 do
+ Publish %sysname%/status,Rebooting   //set a non focused reboot to multiple devices.
+ Reboot
+endon
+
+on sniff#cmd/REBOOT/time/=4 do   //reboot at the time based on persistence on broker?
+  Publish %sysname%/status,Rebooting 
+ Reboot
+endon
