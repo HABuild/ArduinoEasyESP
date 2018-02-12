@@ -1,0 +1,28 @@
+On System#Boot do
+  gpio,15,0 //D8
+endon
+
+//On garage#relay do
+   if [garage#relay]=1
+    pulse,15,1,200
+    Publish status,gpio,15 to [%sysname%/Garage/status]
+    gpio,15,0
+   endif
+//endon 
+
+On garage#relay do
+  if [garage#relay] > 2000
+     gpio,15,0
+  endif
+endon  
+ //if else needed for garage#door=1 > 1000
+   //publish /MyHome/Garage/, RELAY FAULT - URGENT
+
+//on Garage#Reed do
+// if [Garage#Reed] = 1
+//  GPIO,13,1
+//  else 
+//  GPIO,13,0
+// endif
+//endon
+
